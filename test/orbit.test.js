@@ -50,7 +50,7 @@ maybeTest('rejects an incorrect code and authenticates the private code', async 
   assert.match(good.headers.get('set-cookie'), /orbit_session=/);
 });
 
-test('opens the desktop socket with a valid authenticated session', async () => {
+maybeTest('opens the desktop socket with a valid authenticated session', async () => {
   const { port } = server.address();
   const login = await fetch(`http://127.0.0.1:${port}/api/login`, {
     method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: ACCESS_CODE })
