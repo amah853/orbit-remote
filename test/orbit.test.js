@@ -9,13 +9,22 @@ const { WebSocket } = require('ws');
 const testDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'orbit-test-'));
 process.env.PORT = '0';
 process.env.ORBIT_SECRET_FILE = path.join(testDirectory, 'secret');
-const { server, ACCESS_CODE } = require('../server');
+
+const isWindows = process.platform === 'win32';
+let server;
+let ACCESS_CODE;
+if (isWindows) ({ server, ACCESS_CODE } = require('../server'));
+const maybeTest = isWindows ? test : test.skip;
 
 test.before(async () => {
+  if (!isWindows) return;
   if (!server.listening) await once(server, 'listening');
 });
 
-test.after(() => new Promise(resolve => server.close(resolve)));
+test.after(() => {
+  if (!isWindows) return;
+  return new Promise(resolve => server.close(resolve));
+});
 
 test('serves the remote access website and reports locked status', async () => {
   const { port } = server.address();
