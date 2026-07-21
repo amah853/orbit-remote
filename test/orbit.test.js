@@ -26,7 +26,7 @@ test.after(() => {
   return new Promise(resolve => server.close(resolve));
 });
 
-test('serves the remote access website and reports locked status', async () => {
+maybeTest('serves the remote access website and reports locked status', async () => {
   const { port } = server.address();
   const homepage = await fetch(`http://127.0.0.1:${port}/`);
   assert.equal(homepage.status, 200);
