@@ -111,14 +111,24 @@ function json(res, status, payload, headers = {}) {
 function readJson(req) {
   return new Promise((resolve, reject) => {
     let body = '';
+    let aborted = false;
     req.on('data', chunk => {
+      if (aborted) return;
       body += chunk;
-      if (body.length > 4096) req.destroy();
+      if (body.length > 4096) {
+        aborted = true;
+        reject(new Error('Body too large'));
+        req.destroy();
+      }
     });
     req.on('end', () => {
+      if (aborted) return;
       try { resolve(JSON.parse(body || '{}')); } catch { reject(new Error('Invalid JSON')); }
     });
     req.on('error', reject);
+    req.on('close', () => {
+      if (!aborted && body.length > 4096) reject(new Error('Body too large'));
+    });
   });
 }
 
