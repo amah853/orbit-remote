@@ -201,7 +201,13 @@ async function handleApi(req, res, pathname) {
 }
 
 const server = http.createServer(async (req, res) => {
-  const pathname = decodeURIComponent((req.url || '/').split('?')[0]);
+  let pathname = '/';
+  try {
+    pathname = decodeURIComponent((req.url || '/').split('?')[0]);
+  } catch {
+    res.writeHead(400, securityHeaders()).end('Bad request');
+    return;
+  }
   if (pathname.startsWith('/api/')) return handleApi(req, res, pathname);
 
   const requested = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '');
