@@ -715,7 +715,7 @@ server.listen(PORT, HOST, () => {
   const address = server.address();
   console.log(`\nOrbit Remote is running on ${os.hostname()}`);
   console.log(`Local address: http://${HOST}:${address.port}`);
-  console.log(`Access code: ${ACCESS_CODE}`);
+  console.log('Access code: run "npm run code" to display the current access code');
   console.log('For browser access anywhere, run: npm run enable-anywhere\n');
 });
 
