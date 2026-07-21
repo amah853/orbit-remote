@@ -74,10 +74,17 @@ const mimeTypes = {
 };
 
 function parseCookies(req) {
-  return Object.fromEntries((req.headers.cookie || '').split(';').filter(Boolean).map(value => {
-    const index = value.indexOf('=');
-    return [value.slice(0, index).trim(), decodeURIComponent(value.slice(index + 1).trim())];
-  }));
+  const header = req.headers.cookie || '';
+  const entries = [];
+  for (const part of header.split(';')) {
+    if (!part) continue;
+    const index = part.indexOf('=');
+    if (index <= 0) continue;
+    const name = part.slice(0, index).trim();
+    const rawValue = part.slice(index + 1).trim();
+    try { entries.push([name, decodeURIComponent(rawValue)]); } catch { entries.push([name, rawValue]); }
+  }
+  return Object.fromEntries(entries);
 }
 
 function getSession(req) {
