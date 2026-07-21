@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090b10">
+  <title>Orbit Remote</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/overrides.css">
+</head>
+<body>
+  <div class="grain"></div>
+
+  <main class="login-screen" id="loginScreen">
+    <div class="login-glow glow-one"></div><div class="login-glow glow-two"></div>
+    <section class="login-card">
+      <div class="brand"><span class="brand-mark"><i></i><i></i></span><span>orbit</span></div>
+      <div class="computer-orb"><div class="monitor"><div class="screen-shine"></div></div><span class="online-dot"></span></div>
+      <p class="kicker">PRIVATE REMOTE ACCESS</p>
+      <h1>Welcome back.</h1>
+      <p class="login-copy">Enter the private code stored on your computer to open its desktop.</p>
+      <form id="loginForm">
+        <label for="accessCode">Access code</label>
+        <div class="code-input-wrap"><span>⌁</span><input id="accessCode" type="password" maxlength="16" autocomplete="current-password" placeholder="Enter your code" required><button type="button" id="showCode" aria-label="Show access code">◉</button></div>
+        <p class="form-error" id="loginError"></p>
+        <button class="primary-button" type="submit"><span>Connect to my PC</span><b>→</b></button>
+      </form>
+      <div class="private-note"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg><div><b>Access-code protected</b><span>Only browsers with your private access code can open this PC.</span></div></div>
+    </section>
+    <footer class="login-footer"><span>Orbit Remote</span><i></i><span>Hosted on your PC</span></footer>
+  </main>
+
+  <main class="remote-app hidden" id="remoteApp">
+    <header class="remote-header">
+      <div class="brand small"><span class="brand-mark"><i></i><i></i></span><span>orbit</span></div>
+      <div class="machine-title"><span class="live-dot"></span><div><b id="computerName">My PC</b><small id="connectionState">Connecting securely…</small></div></div>
+      <div class="header-tools">
+        <div class="quality-badge"><i></i><span id="qualityLabel">Waiting</span></div>
+        <button class="icon-button" id="settingsButton" aria-label="Stream settings"><svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l-2.83 2.83a1.7 1.7 0 0 0-1.88-.34A1.7 1.7 0 0 0 14 20.92V21h-4v-.08a1.7 1.7 0 0 0-1.03-1.55 1.7 1.7 0 0 0-1.88.34l-2.83-2.83A1.7 1.7 0 0 0 4.6 15 1.7 1.7 0 0 0 3.08 14H3v-4h.08A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.88l2.83-2.83A1.7 1.7 0 0 0 9 4.63 1.7 1.7 0 0 0 10 3.08V3h4v.08A1.7 1.7 0 0 0 15 4.63a1.7 1.7 0 0 0 1.88-.34l2.83 2.83A1.7 1.7 0 0 0 19.4 9 1.7 1.7 0 0 0 20.92 10H21v4h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg></button>
+        <button class="end-button" id="disconnectButton">Disconnect</button>
+      </div>
+    </header>
+
+    <section class="desktop-stage" id="desktopStage" tabindex="0">
+      <canvas id="desktopCanvas" aria-label="Live remote desktop"></canvas>
+      <img id="desktopFrame" alt="Live remote desktop" draggable="false">
+      <div class="stream-placeholder" id="streamPlaceholder"><div class="loader-mark"><i></i><i></i></div><h2>Waking the display</h2><p>Your desktop will appear here in a moment.</p></div>
+      <div class="focus-hint" id="focusHint">Click the desktop to control it</div>
+      <div class="control-pill" id="controlPill"><i></i><span>Control enabled</span></div>
+      <div class="stats" id="stats"><span><b id="fpsValue">—</b> FPS</span><i></i><span><b id="mbpsValue">—</b> Mbps</span><i></i><span><b id="screenValue">—</b></span></div>
+    </section>
+
+    <nav class="control-dock">
+      <button id="controlButton" class="active" aria-label="Toggle remote control"><svg viewBox="0 0 24 24"><path d="m5 3 14 8-6 2-3 6L5 3Z"/></svg><span>Control</span></button>
+      <button id="keyboardButton" aria-label="Open mobile keyboard"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/></svg><span>Keyboard</span></button>
+      <button id="fullscreenButton" aria-label="Fullscreen"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg><span>Fullscreen</span></button>
+      <button id="fitButton" class="active" aria-label="Fit screen"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m8 9-2 2 2 2M16 9l2 2-2 2"/></svg><span>Fit</span></button>
+    </nav>
+
+    <input class="mobile-keyboard" id="mobileKeyboard" autocomplete="off" autocapitalize="none" aria-label="Remote keyboard input">
+
+    <button class="settings-hotspot" id="settingsHotspot" aria-label="Open stream settings"></button>
+    <aside class="stream-settings" id="streamSettings">
+      <div class="stream-settings-head"><div><span>STREAM</span><h2>Settings</h2></div><button id="streamSettingsClose" aria-label="Close settings">×</button></div>
+      <label>Desktop resolution
+        <select id="resolutionSelect">
+          <option value="auto" selected>Auto — match this device</option>
+          <option value="1280x720">1280 × 720 — fastest</option>
+          <option value="1440x900">1440 × 900</option>
+          <option value="1920x1080">1920 × 1080</option>
+          <option value="2560x1440">2560 × 1440</option>
+          <option value="native">3440 × 1440 — native</option>
+        </select>
+      </label>
+      <div class="stream-setting-range">
+        <div><b>Bitrate limit</b><span id="bitrateValue">16 Mbps</span></div>
+        <input id="bitrateRange" type="range" min="4" max="50" step="1" value="16">
+      </div>
+      <label class="adaptive-row"><input id="adaptiveBitrate" type="checkbox" checked><span><b>Prevent stream delay</b><small id="adaptiveStatus">Adaptive bitrate is on</small></span></label>
+      <div class="actual-resolution"><span>Windows desktop</span><b id="actualResolution">Detecting…</b></div>
+      <p class="settings-note">Auto matches this device at up to 1920 pixels wide. Higher manual resolutions automatically keep enough bitrate for a sharp image.</p>
+      <button class="settings-done" id="settingsDone">Apply and close</button>
+    </aside>
+
+    <aside class="settings-panel" id="settingsPanel">
+      <div class="panel-head"><div><span>STREAM</span><h2>Settings</h2></div><button id="closeSettings">×</button></div>
+      <label>Quality<select id="qualitySelect"><option value="data">Data saver</option><option value="balanced" selected>Balanced</option><option value="sharp">Sharp</option></select></label>
+      <div class="setting-info"><div><b>Frame rate</b><span id="fpsSetting">7 fps</span></div><input id="fpsRange" type="range" min="2" max="10" value="7"></div>
+      <label class="switch-row"><div><b>Connection stats</b><span>Show live performance</span></div><input type="checkbox" id="statsToggle" checked><i></i></label>
+      <div class="security-card"><svg viewBox="0 0 24 24"><path d="M7 11V8a5 5 0 0 1 10 0v3M5 11h14v10H5z"/></svg><div><b>End-to-end private route</b><span>Orbit only listens on this PC. Tailscale carries the remote connection.</span></div></div>
+      <button class="logout-button" id="logoutButton">Sign out of this browser</button>
+    </aside>
+
+    <div class="toast" id="toast"></div>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
