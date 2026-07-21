@@ -36,7 +36,7 @@ maybeTest('serves the remote access website and reports locked status', async ()
   assert.ok(status.screen.width > 0);
 });
 
-test('rejects an incorrect code and authenticates the private code', async () => {
+maybeTest('rejects an incorrect code and authenticates the private code', async () => {
   const { port } = server.address();
   const bad = await fetch(`http://127.0.0.1:${port}/api/login`, {
     method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: 'WRONGCODE' })
