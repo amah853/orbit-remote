@@ -1,0 +1,109 @@
+.login-screen {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* The connected view is intentionally only the remote desktop. */
+.remote-app {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  display: block;
+  background: #000;
+}
+
+.remote-app .remote-header,
+.remote-app .control-dock,
+.remote-app .settings-panel,
+.remote-app .focus-hint,
+.remote-app .control-pill,
+.remote-app .stats,
+.remote-app .toast,
+.remote-app .mobile-keyboard,
+body:has(.remote-app:not(.hidden)) > .grain {
+  display: none !important;
+}
+
+.remote-app .desktop-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  cursor: none;
+}
+
+#desktopCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  touch-action: none;
+}
+
+#desktopFrame {
+  display: none !important;
+}
+
+.remote-app .stream-placeholder {
+  background: #000;
+}
+
+.remote-app .stream-placeholder h2,
+.remote-app .stream-placeholder p {
+  display: none;
+}
+
+.settings-hotspot {
+  position: fixed;
+  z-index: 45;
+  top: 0;
+  right: 0;
+  width: 72px;
+  height: 72px;
+  border: 0;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.stream-settings {
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(92vw, 390px);
+  padding: 28px;
+  overflow-y: auto;
+  color: var(--text);
+  background: rgba(17, 20, 27, .98);
+  border-left: 1px solid var(--line);
+  box-shadow: -30px 0 80px #000;
+  backdrop-filter: blur(18px);
+  transform: translateX(101%);
+  transition: transform .2s ease;
+}
+
+.stream-settings.open { transform: none; }
+.stream-settings-head { display: flex; justify-content: space-between; margin-bottom: 34px; }
+.stream-settings-head span { color: var(--coral); font-size: 8px; letter-spacing: 2px; }
+.stream-settings-head h2 { margin: 5px 0; font-size: 25px; }
+.stream-settings-head button { border: 0; background: none; color: #a7abb5; font-size: 28px; cursor: pointer; }
+.stream-settings label { display: block; color: #c6c9d0; font-size: 11px; }
+.stream-settings select { display: block; width: 100%; height: 46px; margin-top: 9px; padding: 0 11px; color: #fff; background: #090b10; border: 1px solid var(--line); border-radius: 8px; font-size: 12px; }
+.stream-setting-range { margin-top: 25px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.stream-setting-range > div { display: flex; justify-content: space-between; font-size: 11px; }
+.stream-setting-range span { color: var(--muted); }
+.stream-setting-range input { width: 100%; margin-top: 20px; accent-color: var(--coral); }
+.adaptive-row { display: flex !important; align-items: center; gap: 11px; margin-top: 18px; padding: 13px; border: 1px solid rgba(102,221,160,.16); border-radius: 8px; background: rgba(102,221,160,.05); }
+.adaptive-row input { width: 17px; height: 17px; accent-color: var(--green); }
+.adaptive-row b,.adaptive-row small { display: block; }
+.adaptive-row small { margin-top: 3px; color: var(--muted); font-size: 9px; }
+.actual-resolution { display: flex; justify-content: space-between; gap: 18px; margin-top: 22px; padding: 14px; border: 1px solid var(--line); border-radius: 8px; background: #090b10; font-size: 10px; }
+.actual-resolution span { color: var(--muted); }
+.settings-note { color: var(--muted); font-size: 10px; line-height: 1.55; margin: 18px 0; }
+.settings-done { width: 100%; height: 44px; border: 0; border-radius: 8px; background: var(--coral); color: #1b100e; font-weight: 700; cursor: pointer; }

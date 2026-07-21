@@ -1,0 +1,9 @@
+node_modules/
+.orbit-secret
+npm-debug.log*
+*.log
+bin/
+sources/
+AGENTS.md
+.env
+.env.*

@@ -1,0 +1,23 @@
+{
+  "name": "orbit-local-stream",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A private, browser-based remote control host for your Windows PC",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test",
+    "code": "node -e \"console.log(require('fs').readFileSync('.orbit-secret','utf8').trim())\"",
+    "install-startup": "powershell -ExecutionPolicy Bypass -File scripts/install-autostart.ps1",
+    "enable-anywhere": "powershell -ExecutionPolicy Bypass -File scripts/start-public-tunnel.ps1"
+  },
+  "dependencies": {
+    "@jitsi/robotjs": "^0.6.24",
+    "ffmpeg-static": "^5.3.0",
+    "sharp": "^0.35.3",
+    "ws": "^8.18.3"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}
